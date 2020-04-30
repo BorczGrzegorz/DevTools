@@ -28,6 +28,7 @@ using DevTools.Application.Models.Dto;
 using System.Linq;
 using System.IO;
 using Newtonsoft.Json;
+using DevTools.Exceptions;
 
 namespace DevTools
 {
@@ -60,6 +61,7 @@ namespace DevTools
                 options.AddConverter(new ProjectIdConverter());
                 options.AddConverter(new AddressIdConverter());
             });
+            services.AddApiVersioning();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Dev Tools", Version = "v1" });
@@ -156,7 +158,27 @@ namespace DevTools
             {
                 // TODO add parameter validation
                 var accessor = x.GetRequiredService<IHttpContextAccessor>();
-                var boardId = (string)accessor.HttpContext.Request.RouteValues["boardId"];
+                string boardId = null;
+                StringValues boardHeader = accessor.HttpContext.Request.Headers["x-board"];
+                if (boardHeader == StringValues.Empty
+                    && accessor.HttpContext.Request.RouteValues.TryGetValue("boardId", out object value))
+                {
+                    boardId = (string)value;
+                }
+                else if (boardHeader.Count > 1)
+                {
+                    throw new ArgumentException("Only one boardId is allowed");
+                }
+                else
+                {
+                    boardId = boardHeader.Single();
+                }
+
+                if (string.IsNullOrWhiteSpace(boardId))
+                {
+                    throw new BoardIdNotFoundException();
+                }
+
                 return new WorklogQuery(x.GetRequiredService<IJiraWebClient>(), boardId);
             });
             services.AddScoped<IUserQuery, UserQuery>();
