@@ -130,7 +130,7 @@ namespace DevTools.JiraApi.Mock
             return Task.FromResult(_users.Single(x => x.DisplayName == CURRENT_USER_DISPLAY_NAME).Key);
         }
 
-        public Task<List<JiraWorkLogDto>> GetWorkLoads(int issueId)
+        public Task<List<JiraWorkLogDto>> GetWorkLogs(int issueId)
         {
             return Task.FromResult(_workLogs.Where(x => x.IssueId == issueId).ToList());
         }

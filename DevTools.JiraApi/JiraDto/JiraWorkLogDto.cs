@@ -7,7 +7,7 @@ namespace DevTools.JiraApi.JiraDto
         public int Id { get; set; }
         public int IssueId { get; set; }
         public int TimeSpentSeconds { get; set; }
-        public DateTime Created { get; set; }
+        public DateTime Started { get; set; }
         public JiraUserDto Author { get; set; }
 
         public JiraWorkLogDto()
@@ -20,7 +20,7 @@ namespace DevTools.JiraApi.JiraDto
             Id = workLog.Id;
             IssueId = workLog.IssueId;
             TimeSpentSeconds = workLog.TimeSpentSeconds;
-            Created = workLog.Created;
+            Started = workLog.Started;
             Author = new JiraUserDto(workLog.Author);
         }
     }

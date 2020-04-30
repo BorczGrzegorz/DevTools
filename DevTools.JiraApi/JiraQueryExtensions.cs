@@ -49,8 +49,8 @@ namespace DevTools.JiraApi
                 return source;
             }
 
-            DateTime minDate = sprints.Min(x => x.StartDate);
-            return source.Where(x => x.FilterAfterDate(minDate));
+            SprintDto firstSprint = sprints.OrderBy(x => x.StartDate).First();
+            return source.Where(x => x.FilterAfterStartDate(firstSprint));
         }
 
         public static IEnumerable<JiraWorkLogDto> FilterByDate(this IEnumerable<JiraWorkLogDto> source, 
@@ -84,8 +84,17 @@ namespace DevTools.JiraApi
         public static IEnumerable<T> FilterState<T>(this IEnumerable<T> source, ISprintFilter searchParamsDto, Func<T, SprintState, bool> filter)
             => source.WhereIf(searchParamsDto.SprintState != null, x => filter(x, searchParamsDto.SprintState.Value));
 
-        private static bool FilterAfterDate(this JiraWorkLogDto workLog, DateTime date) 
-            => workLog.Created.ToUniversalTime() >= date.ToUniversalTime();
+        private static bool FilterAfterStartDate(this JiraWorkLogDto workLog, SprintDto sprint)
+        {
+            DateTimeOffset worklogDateTimeOffset = new DateTimeOffset(workLog.Started);
+            DateTimeOffset dateOffset = new DateTimeOffset(sprint.StartDate, worklogDateTimeOffset.Offset);
+            return worklogDateTimeOffset >= dateOffset;
+        }
+
+        private static bool FilterAfterDate(this JiraWorkLogDto workLog, DateTime date)
+        {
+            return workLog.Started > date;
+        }
 
         public static UsersIssueDto ToIssueWorklogDictionary(this IEnumerable<IGrouping<string, JiraWorkLogDto>> source,
                                                                                                 IEnumerable<JiraIssueDto> issues)
@@ -99,7 +108,7 @@ namespace DevTools.JiraApi
                 {
                     Id = w.Id,
                     IssueId = w.IssueId,
-                    Created = w.Created,
+                    Created = w.Started,
                     TimeSpentSeconds = w.TimeSpentSeconds
                 })
                 .OrderBy(x => x.Created)
@@ -113,8 +122,8 @@ namespace DevTools.JiraApi
                                                                                             IEnumerable<JiraIssueDto> issues)
         {
             var dictionary = source.ToDictionary(x => x.Key, y => new DatesIssueSummaryDto(
-                                           y.OrderBy(x => x.Created)
-                                            .GroupBy(z => new DateTime(z.Created.Year, z.Created.Month, z.Created.Day))
+                                           y.OrderBy(x => x.Started)
+                                            .GroupBy(z => new DateTime(z.Started.Year, z.Started.Month, z.Started.Day))
                                             .ToDictionary(k => k.Key,
                                                           v => v.GroupBy(x => x.IssueId)
                                                                 .Select(x => new IssueSummaryDto
@@ -131,9 +140,9 @@ namespace DevTools.JiraApi
 
         public static UsersWorkLogDto ToUsersWorkLogDto(this IEnumerable<IGrouping<string, JiraWorkLogDto>> source)
         {
-            var dictionary = source.ToDictionary(x => x.Key, y => y.OrderBy(x => x.Created).Select(z => new WorkLogDto()
+            var dictionary = source.ToDictionary(x => x.Key, y => y.OrderBy(x => x.Started).Select(z => new WorkLogDto()
             {
-                Created = z.Created,
+                Created = z.Started,
                 Id = z.Id,
                 IssueId = z.IssueId,
                 TimeSpentSeconds = z.TimeSpentSeconds

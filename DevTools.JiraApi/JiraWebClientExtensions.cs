@@ -24,7 +24,7 @@ namespace DevTools.JiraApi
 
         internal static async Task<IEnumerable<JiraWorkLogDto>> GetWorkLoads(this IJiraWebClient jiraWebClient, IEnumerable<JiraIssueDto> issues)
         {
-            IEnumerable<Task<List<JiraWorkLogDto>>> workLoadsTasks = issues.Select(x => jiraWebClient.GetWorkLoads(x.Id));
+            IEnumerable<Task<List<JiraWorkLogDto>>> workLoadsTasks = issues.Select(x => jiraWebClient.GetWorkLogs(x.Id));
             List<JiraWorkLogDto>[] workloadsArray = await Task.WhenAll(workLoadsTasks);
             return workloadsArray.FlatMap();
         }

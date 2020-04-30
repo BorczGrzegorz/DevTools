@@ -27,7 +27,7 @@ namespace DevTools.JiraApi.Mock
         public JiraWorkLogDtoBuilder Id(int id) => Set(w => w.Id = id);
         public JiraWorkLogDtoBuilder IssueId(int id) => Set(w => w.IssueId = id);
         public JiraWorkLogDtoBuilder TimeSpentSeconds(int timeSpent) => Set(w => w.TimeSpentSeconds = timeSpent);
-        public JiraWorkLogDtoBuilder Created(DateTime created) => Set(w => w.Created = created);
+        public JiraWorkLogDtoBuilder Created(DateTime created) => Set(w => w.Started = created);
         public JiraWorkLogDtoBuilder Author(Func<JiraUserDtoBuilder, JiraUserDtoBuilder> action)
             => Author(action(JiraUserDtoBuilder.Empty()).Build());
         public JiraWorkLogDtoBuilder Author(JiraUserDto author) => Set(w => w.Author = author);

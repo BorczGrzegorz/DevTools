@@ -14,7 +14,7 @@ namespace DevTools.JiraApi.Abstract
         Task<List<JiraIssueDto>> GetIssues(params int[] sprints);
         Task<List<JiraIssueDto>> GetIssues(string issueAssignee, params int[] sprints);
         Task<List<JiraIssueDto>> GetIssues(List<IssueState> issueState, List<IssueState> notIssueState, string issueAssignee, params int[] sprints);
-        Task<List<JiraWorkLogDto>> GetWorkLoads(int IssueId);
+        Task<List<JiraWorkLogDto>> GetWorkLogs(int IssueId);
         Task LogWork(string issueId, int minutes);
     }
 }

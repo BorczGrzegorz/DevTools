@@ -48,11 +48,6 @@ namespace DevTools.JiraApi
         {
             HttpResponseMessage message = await _httpClient.GetAsync($"jira/rest/greenhopper/1.0/rapid/charts/sprintreport/?rapidViewId={boardId}&sprintId={sprintId}");
             SprintInfoDto sprintInfo = await message.Content.ReadAsAsync<SprintInfoDto>();
-            if (sprintInfo.Sprint != null)
-            {
-                sprintInfo.Sprint.StartDate = DateTime.SpecifyKind(sprintInfo.Sprint.StartDate, DateTimeKind.Local);
-                sprintInfo.Sprint.EndDate = DateTime.SpecifyKind(sprintInfo.Sprint.EndDate, DateTimeKind.Local);
-            }
             return sprintInfo.Sprint;
         }
 
@@ -87,7 +82,7 @@ namespace DevTools.JiraApi
             return results;
         }
 
-        public async Task<List<JiraWorkLogDto>> GetWorkLoads(int IssueId)
+        public async Task<List<JiraWorkLogDto>> GetWorkLogs(int IssueId)
         {
             List<JiraWorkLogDto> workLoads = new List<JiraWorkLogDto>();
             WorkLogResultsDto workLogResultsDto = null;
