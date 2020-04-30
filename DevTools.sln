@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevTools", "DevTools\DevTools.csproj", "{DD157DCF-2AAA-4CED-8FAC-F1B3C7D18F54}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevTools.Application", "DevTools.Application\DevTools.Application.csproj", "{B46D26E5-1D6F-43C3-A77C-B86017D56DF7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevTools.Infrastructure", "DevTools.Infrastructure\DevTools.Infrastructure.csproj", "{E0265265-A54D-435A-8C50-2BE9A47066A3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevTools.DataAccess", "DevTools.DataAccess\DevTools.DataAccess.csproj", "{904D916A-2356-4C26-B75E-58A1E4D05223}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevTools.JiraApi", "DevTools.JiraApi\DevTools.JiraApi.csproj", "{338F94D5-4445-4421-8FE1-E33CB0BB9DB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTools.JiraApi.Mock", "DevTools.JiraApi.Mock\DevTools.JiraApi.Mock.csproj", "{BBF18924-A5D7-443C-81E9-18BB952A8A54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD157DCF-2AAA-4CED-8FAC-F1B3C7D18F54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD157DCF-2AAA-4CED-8FAC-F1B3C7D18F54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD157DCF-2AAA-4CED-8FAC-F1B3C7D18F54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD157DCF-2AAA-4CED-8FAC-F1B3C7D18F54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B46D26E5-1D6F-43C3-A77C-B86017D56DF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B46D26E5-1D6F-43C3-A77C-B86017D56DF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B46D26E5-1D6F-43C3-A77C-B86017D56DF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B46D26E5-1D6F-43C3-A77C-B86017D56DF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0265265-A54D-435A-8C50-2BE9A47066A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0265265-A54D-435A-8C50-2BE9A47066A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0265265-A54D-435A-8C50-2BE9A47066A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0265265-A54D-435A-8C50-2BE9A47066A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{904D916A-2356-4C26-B75E-58A1E4D05223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{904D916A-2356-4C26-B75E-58A1E4D05223}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{904D916A-2356-4C26-B75E-58A1E4D05223}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{904D916A-2356-4C26-B75E-58A1E4D05223}.Release|Any CPU.Build.0 = Release|Any CPU
+		{338F94D5-4445-4421-8FE1-E33CB0BB9DB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{338F94D5-4445-4421-8FE1-E33CB0BB9DB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{338F94D5-4445-4421-8FE1-E33CB0BB9DB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{338F94D5-4445-4421-8FE1-E33CB0BB9DB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBF18924-A5D7-443C-81E9-18BB952A8A54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBF18924-A5D7-443C-81E9-18BB952A8A54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBF18924-A5D7-443C-81E9-18BB952A8A54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBF18924-A5D7-443C-81E9-18BB952A8A54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C3096009-8745-41B3-9153-3B6343DFE1B5}
+	EndGlobalSection
+EndGlobal
