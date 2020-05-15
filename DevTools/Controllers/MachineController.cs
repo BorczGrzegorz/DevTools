@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace DevTools.Controllers
 {
+    [ApiVersionNeutral]
     [ApiController]
     public class MachineController : ControllerBase
     {

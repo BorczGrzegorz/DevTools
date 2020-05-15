@@ -23,7 +23,9 @@ namespace DevTools.JiraApi
         public static DateTime GetDefaultStartFrom(this IDateFilter dateFilter)
         {
             DateTime now = DateTime.UtcNow;
-            return new DateTime(now.Year, now.Month, 1);
+            int previousMonth = now.Month - 1;
+            previousMonth = previousMonth < 0 ? 11 : previousMonth;
+            return (new DateTime(now.Year, now.Month, 1)).Subtract(TimeSpan.FromDays(DateTime.DaysInMonth(now.Year, previousMonth)));
         }
     }
 }

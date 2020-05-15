@@ -7,7 +7,7 @@ namespace DevTools.JiraApi.JiraDto
         public int Id { get; set; }
         public int IssueId { get; set; }
         public int TimeSpentSeconds { get; set; }
-        public DateTime Started { get; set; }
+        public DateTimeOffset Started { get; set; }
         public JiraUserDto Author { get; set; }
 
         public JiraWorkLogDto()

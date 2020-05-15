@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace DevTools.JiraApi
 {
-    public class RequestHandler : DelegatingHandler
+    public class CookieRequestHandler : DelegatingHandler
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public RequestHandler(IHttpContextAccessor httpContextAccessor)
+        public CookieRequestHandler(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }

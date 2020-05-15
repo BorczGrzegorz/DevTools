@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DevTools.Models
+﻿namespace DevTools.Models
 {
     public class ErrorDto
     {
+        public int? Code { get; }
+
+        public ErrorDto(ErrorCode errorCode)
+        {
+            Code = (int)errorCode;
+        }
     }
 }

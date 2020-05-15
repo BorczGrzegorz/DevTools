@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace DevTools.Controllers
 {
+    [ApiVersionNeutral]
     [ApiController]
     [Route("addresses")]
     public class AddressesController : ControllerBase

@@ -29,6 +29,10 @@ using System.Linq;
 using System.IO;
 using Newtonsoft.Json;
 using DevTools.Exceptions;
+using DevTools.Middleware;
+using DevTools.Context;
+using DevTools.JiraApi.HttpClients.Handlers;
+using Newtonsoft.Json.Serialization;
 
 namespace DevTools
 {
@@ -56,6 +60,7 @@ namespace DevTools
             .AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 options.AddConverter(new MachineIdConverter());
                 options.AddConverter(new ProductIdConverter());
                 options.AddConverter(new ProjectIdConverter());
@@ -128,7 +133,9 @@ namespace DevTools
         public void RegisterServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
-            services.AddTransient<RequestHandler>();
+            services.AddTransient<CookieRequestHandler>();
+            services.AddTransient<ResponseHandler>();
+
             string jiraEnviromentAddress = Environment.GetEnvironmentVariable("JIRA_ADDRESS", EnvironmentVariableTarget.Machine);
             string jiraAddress = jiraEnviromentAddress ?? _settings.JiraAddress;
 
@@ -138,7 +145,8 @@ namespace DevTools
                 {
                     client.BaseAddress = new Uri(jiraAddress);
                 })
-                .AddHttpMessageHandler<RequestHandler>();
+                .AddHttpMessageHandler<CookieRequestHandler>()
+                .AddHttpMessageHandler<ResponseHandler>();
             }
             else
             {
@@ -154,31 +162,23 @@ namespace DevTools
             services.AddScoped<IAddressesQuery>(p => p.GetRequiredService<MongoProductRepository>());
             services.AddScoped<IProjectQuery>(p => p.GetRequiredService<MongoProductRepository>());
             services.AddScoped<IMachineQuery>(p => p.GetRequiredService<MongoProductRepository>());
+            services.AddScoped<IBoardContext, HttpBoardContext>();
             services.AddScoped<WorklogQuery>(x =>
             {
                 // TODO add parameter validation
                 var accessor = x.GetRequiredService<IHttpContextAccessor>();
                 string boardId = null;
-                StringValues boardHeader = accessor.HttpContext.Request.Headers["x-board"];
-                if (boardHeader == StringValues.Empty
-                    && accessor.HttpContext.Request.RouteValues.TryGetValue("boardId", out object value))
+                if (accessor.HttpContext.Request.RouteValues.TryGetValue("boardId", out object value))
                 {
                     boardId = (string)value;
                 }
-                else if (boardHeader.Count > 1)
-                {
-                    throw new ArgumentException("Only one boardId is allowed");
-                }
                 else
                 {
-                    boardId = boardHeader.Single();
+                    var boardContext = x.GetRequiredService<IBoardContext>();
+                    boardId = boardContext.Id;
                 }
 
-                if (string.IsNullOrWhiteSpace(boardId))
-                {
-                    throw new BoardIdNotFoundException();
-                }
-
+                boardId = !string.IsNullOrWhiteSpace(boardId) ? boardId : throw new BoardIdNotFoundException();
                 return new WorklogQuery(x.GetRequiredService<IJiraWebClient>(), boardId);
             });
             services.AddScoped<IUserQuery, UserQuery>();
@@ -188,6 +188,7 @@ namespace DevTools
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors(builder => builder.WithOrigins("*").AllowAnyMethod());
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

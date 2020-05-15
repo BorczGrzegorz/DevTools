@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 namespace DevTools.Controllers
 {
+    [ApiVersionNeutral]
     [Route("product")]
     public class ProductController : ControllerBase
     {

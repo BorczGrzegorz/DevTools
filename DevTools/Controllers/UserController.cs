@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace DevTools.Controllers
 {
+    [ApiVersionNeutral]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -18,10 +19,10 @@ namespace DevTools.Controllers
             _userQuery = userQuery ?? throw new ArgumentNullException(nameof(userQuery));
         }
 
-        [HttpGet("users/self")]
+        [HttpGet("/users/self")]
         public async Task<ActionResult<UserDto>> GetUser() => await _userQuery.GetUser();
 
-        [HttpGet("users")]
+        [HttpGet("/users")]
         public async Task<ActionResult<UserDto[]>> GetUsers([FromQuery] string[] userName)
             => await _userQuery.GetUsers(userName);
     }

@@ -86,9 +86,8 @@ namespace DevTools.JiraApi
 
         private static bool FilterAfterStartDate(this JiraWorkLogDto workLog, SprintDto sprint)
         {
-            DateTimeOffset worklogDateTimeOffset = new DateTimeOffset(workLog.Started);
-            DateTimeOffset dateOffset = new DateTimeOffset(sprint.StartDate, worklogDateTimeOffset.Offset);
-            return worklogDateTimeOffset >= dateOffset;
+            DateTimeOffset dateOffset = new DateTimeOffset(sprint.StartDate, workLog.Started.Offset);
+            return workLog.Started >= dateOffset;
         }
 
         private static bool FilterAfterDate(this JiraWorkLogDto workLog, DateTime date)
@@ -108,7 +107,7 @@ namespace DevTools.JiraApi
                 {
                     Id = w.Id,
                     IssueId = w.IssueId,
-                    Created = w.Started,
+                    Created = w.Started.DateTime,
                     TimeSpentSeconds = w.TimeSpentSeconds
                 })
                 .OrderBy(x => x.Created)
@@ -142,7 +141,7 @@ namespace DevTools.JiraApi
         {
             var dictionary = source.ToDictionary(x => x.Key, y => y.OrderBy(x => x.Started).Select(z => new WorkLogDto()
             {
-                Created = z.Started,
+                Created = z.Started.DateTime,
                 Id = z.Id,
                 IssueId = z.IssueId,
                 TimeSpentSeconds = z.TimeSpentSeconds

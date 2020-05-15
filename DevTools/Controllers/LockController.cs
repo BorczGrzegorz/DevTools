@@ -8,6 +8,7 @@ using System.Linq;
 
 namespace DevTools.Controllers
 {
+    [ApiVersionNeutral]
     [ApiController]
     public class LockController : Controller
     {
