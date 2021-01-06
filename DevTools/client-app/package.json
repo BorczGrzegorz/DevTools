@@ -22,7 +22,7 @@
     "@types/redux-devtools": "^3.0.47",
     "@types/redux-thunk": "^2.1.0",
     "@types/styled-components": "^4.4.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "formik": "^2.1.2",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
